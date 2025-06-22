@@ -1,12 +1,12 @@
 import React from "react"
 import { Text, View } from "react-native"
 
-const Home = () => {
+const VoiceList = () => {
   return (
     <View className="vr-view">
-      <Text className="text-white">Home 4</Text>
+      <Text className="text-white">VoiceList only</Text>
     </View>
   )
 }
 
-export default Home
+export default VoiceList

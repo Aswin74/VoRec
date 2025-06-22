@@ -1,9 +1,11 @@
+import { Strings } from "@/src/constants/Strings"
 import { Recording } from "@/src/types"
 import { AudioModule, RecordingPresets, useAudioRecorder } from "expo-audio"
 import { useEffect, useState } from "react"
 import { Alert, SafeAreaView, Text } from "react-native"
 import RecorderButton from "./RecorderButton"
 import RecordingList from "./RecordingList"
+import WaveForm from "./WaveForm"
 
 export default function RecorderScreen() {
   // initialize audio recorder
@@ -46,7 +48,12 @@ export default function RecorderScreen() {
 
   return (
     <SafeAreaView className="vr-view">
-      <Text className="text-vr-white font-bold text-2xl">recorder</Text>
+      <Text className="text-vr-white font-bold text-2xl">
+        {Strings.appName}
+      </Text>
+
+      {/* WaveForm */}
+      <WaveForm />
 
       {/* Recordings List */}
       <RecordingList recordings={recordings} />

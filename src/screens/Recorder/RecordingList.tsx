@@ -1,3 +1,4 @@
+import { Colors } from "@/src/constants/Colors"
 import { Recording } from "@/src/types"
 import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 import { useAudioPlayer } from "expo-audio"
@@ -10,7 +11,7 @@ interface RecordingListProps {
 
 const RecordingList: React.FC<RecordingListProps> = ({ recordings }) => {
   return (
-    <View className="w-full mt-4 mb-6 max-h-80 rounded-xl bg-white/5 border border-white/10">
+    <View className="w-full my-4 p-1 max-h-80 max-w-[90%] rounded-xl border border-white/10">
       <FlatList
         data={recordings}
         keyExtractor={(item) => item.uri || item.name}
@@ -48,18 +49,15 @@ const RecordItem: React.FC<{ item: Recording }> = ({ item }) => {
   }
 
   return (
-    <View className="p-4 border-b border-vr-white/20 flex-row items-center justify-between">
+    <View className="p-2 mb-1 flex-row items-center justify-between l bg-white/10 rounded-lg w-fit">
       <Pressable onPress={togglePlayback} className="p-2">
         <MaterialIcons
           name={isPlaying ? "pause" : "play-arrow"}
           size={24}
-          color="white"
+          color={Colors.vr_white}
         />
       </Pressable>
-      <View>
-        <Text className="text-vr-white text-lg">{item.name}</Text>
-        {/* <Text className="text-vr-white/70 text-sm">{item.uri}</Text> */}
-      </View>
+      <Text className="text-vr-white text-lg truncate">{item.name}</Text>
     </View>
   )
 }

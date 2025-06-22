@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.vr-view{
+    @apply relative h-screen w-full py-20 flex-1 items-center justify-center bg-vr-black 
+}

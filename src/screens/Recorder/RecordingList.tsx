@@ -1,7 +1,8 @@
 import { Recording } from "@/src/types"
-import { AudioPlayer, createAudioPlayer } from "expo-audio"
+import MaterialIcons from "@expo/vector-icons/MaterialIcons"
+import { useAudioPlayer } from "expo-audio"
 import React, { useState } from "react"
-import { FlatList, Text, View } from "react-native"
+import { FlatList, Pressable, Text, View } from "react-native"
 
 interface RecordingListProps {
   recordings: Recording[]
@@ -28,7 +29,7 @@ const RecordingList: React.FC<RecordingListProps> = ({ recordings }) => {
 
 // Single RecordItem
 const RecordItem: React.FC<{ item: Recording }> = ({ item }) => {
-  const [player] = useState<AudioPlayer>(() => createAudioPlayer(item.uri))
+  const player = useAudioPlayer(item.uri)
   const [isPlaying, setIsPlaying] = useState(false)
 
   const togglePlayback = async () => {
@@ -36,20 +37,29 @@ const RecordItem: React.FC<{ item: Recording }> = ({ item }) => {
       await player.pause()
       setIsPlaying(false)
     } else {
+      await player.seekTo(0) // optional: always start from beginning
       await player.play()
       setIsPlaying(true)
 
-      // Auto-reset on playback end
-      //   player.seekTo(0)
-      //   setIsPlaying(false)
+      // Reset play state after a few seconds (fallback)
+      // You can also use a timeout here if needed.
+      //   player.onEnded?.(() => setIsPlaying(false))
     }
   }
+
   return (
-    <View className="px-4 py-3 border-b border-white/10">
-      <Text className="text-vr-white font-semibold text-base truncate">
-        {item.name}
-      </Text>
-      <Text className="text-vr-white/50 text-xs truncate">{item.uri}</Text>
+    <View className="p-4 border-b border-vr-white/20 flex-row items-center justify-between">
+      <Pressable onPress={togglePlayback} className="p-2">
+        <MaterialIcons
+          name={isPlaying ? "pause" : "play-arrow"}
+          size={24}
+          color="white"
+        />
+      </Pressable>
+      <View>
+        <Text className="text-vr-white text-lg">{item.name}</Text>
+        {/* <Text className="text-vr-white/70 text-sm">{item.uri}</Text> */}
+      </View>
     </View>
   )
 }

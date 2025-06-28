@@ -1,9 +1,7 @@
-import { Colors } from "@/src/constants/Colors"
 import { Recording } from "@/src/types"
-import MaterialIcons from "@expo/vector-icons/MaterialIcons"
-import { useAudioPlayer } from "expo-audio"
-import React, { useState } from "react"
-import { FlatList, Pressable, Text, View } from "react-native"
+import React from "react"
+import { FlatList, Text, View } from "react-native"
+import RecordItem from "./RecordItem"
 
 interface RecordingListProps {
   recordings: Recording[]
@@ -24,40 +22,6 @@ const RecordingList: React.FC<RecordingListProps> = ({ recordings }) => {
         }
         showsVerticalScrollIndicator={false}
       />
-    </View>
-  )
-}
-
-// Single RecordItem
-const RecordItem: React.FC<{ item: Recording }> = ({ item }) => {
-  const player = useAudioPlayer(item.uri)
-  const [isPlaying, setIsPlaying] = useState(false)
-
-  const togglePlayback = async () => {
-    if (isPlaying) {
-      await player.pause()
-      setIsPlaying(false)
-    } else {
-      await player.seekTo(0) // optional: always start from beginning
-      await player.play()
-      setIsPlaying(true)
-
-      // Reset play state after a few seconds (fallback)
-      // You can also use a timeout here if needed.
-      //   player.onEnded?.(() => setIsPlaying(false))
-    }
-  }
-
-  return (
-    <View className="p-2 mb-1 flex-row items-center justify-between l bg-white/10 rounded-lg w-fit">
-      <Pressable onPress={togglePlayback} className="p-2">
-        <MaterialIcons
-          name={isPlaying ? "pause" : "play-arrow"}
-          size={24}
-          color={Colors.vr_white}
-        />
-      </Pressable>
-      <Text className="text-vr-white text-lg truncate">{item.name}</Text>
     </View>
   )
 }

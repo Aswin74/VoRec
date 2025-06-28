@@ -1,7 +1,7 @@
 import { Strings } from "@/src/constants/Strings"
-import { Recording } from "@/src/types"
+import RecordContext from "@/src/store/RecordContent"
 import { AudioModule, RecordingPresets, useAudioRecorder } from "expo-audio"
-import { useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { Alert, SafeAreaView, Text } from "react-native"
 import RecorderButton from "./RecorderButton"
 import RecordingList from "./RecordingList"
@@ -10,8 +10,9 @@ import WaveForm from "./WaveForm"
 export default function RecorderScreen() {
   // initialize audio recorder
   const audioRecorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY)
-  const [isRecording, setIsRecording] = useState<boolean>(false) // record toggle
-  const [recordings, setRecordings] = useState<Recording[]>([])
+
+  const { isRecording, setIsRecording, recordings, setRecordings } =
+    useContext(RecordContext)
 
   // ask permissions on mount
   useEffect(() => {
